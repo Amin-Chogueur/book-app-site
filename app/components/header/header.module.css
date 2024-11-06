@@ -1,0 +1,90 @@
+.header {
+  position: fixed;
+  top: 20px;
+  left: 5%;
+  z-index: 5;
+  width: 90%;
+  border-radius: 5px;
+  height: 60px;
+  min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: var(--color-accent);
+  opacity: 0.85;
+}
+
+.burgerMenu {
+  display: none;
+}
+.header nav ul {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header nav ul li a {
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.header .logoutBtn,
+.logoutBtnBurger {
+  padding: 5px;
+  border-radius: 5px;
+}
+.navBurgerClose,
+.contrelorBurgerMenu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .contrelorBurgerMenu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .largeScreenLinks,
+  .logoutBtn {
+    display: none;
+  }
+  .openMenu {
+    display: block;
+    font-size: 30px;
+    cursor: pointer;
+  }
+  .closeMenu {
+    font-size: 30px;
+    cursor: pointer;
+  }
+
+  .navBurgerClose {
+    display: none;
+  }
+  .navBurgerOpen {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    left: 0;
+    top: 60px;
+    height: 160px;
+    padding: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: var(--color-accent);
+  }
+  .navBurgerOpen ul {
+    display: flex;
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center;
+  }
+  .logoutBtnBurger {
+    margin-top: 20px;
+  }
+}
