@@ -40,10 +40,10 @@ export default function Pagination() {
   }
   useEffect(() => {
     const section = document.getElementById("next-section");
-    if (section) {
+    if (section && page !== "1") {
       section.scrollIntoView({ behavior: "smooth" });
     }
-  }, [searchParams.get("page")]);
+  }, [page]);
   return (
     <div className="flex gap-8 w-fit mx-auto mt-[40px]">
       <button
@@ -51,7 +51,7 @@ export default function Pagination() {
         onClick={() => handlePrevLink()}
         className="bg-orange-500 p-1 rounded disabled:bg-accent disabled:text-secondary"
       >
-        Previous
+        &lt;
       </button>
       <div className="flex gap-3 w-fit mx-auto">
         {pagesArray.map((ele, i) => (
@@ -73,7 +73,7 @@ export default function Pagination() {
         onClick={() => handleNextLink()}
         className="bg-orange-500 p-1 rounded disabled:bg-accent disabled:text-secondary"
       >
-        Next
+        &gt;
       </button>
     </div>
   );

@@ -22,3 +22,7 @@ export interface CartItem {
   categoryName: string;
   auther: string;
 }
+export interface Category {
+  _id: string;
+  name: string;
+}
