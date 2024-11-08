@@ -1,26 +1,21 @@
 "use client";
-import React, { ChangeEvent, use, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import CardItem from "../components/CardItem";
 import { useBookContext } from "../context/BookContextProvider";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocalStorage } from "../hooks/useLocaleStorage";
+
 export default function Card() {
   const { cartItems, cartItemsQuantity, TotalCartPrice, books, setCartItems } =
     useBookContext();
+  console.log("books in card", books);
   const [storedCartItems, setStoredCartItems, clearCartItems] = useLocalStorage(
     "shopping-cart",
     []
   );
   const [oredrMessage, setOrderMessage] = useState(false);
 
-  const orderData = cartItems.map((item) => {
-    const matchingBook = books.find((book) => book._id === item.itemId);
-    return {
-      item,
-      book: matchingBook || null,
-    };
-  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -42,7 +37,7 @@ export default function Card() {
     try {
       const payload = {
         formData,
-        orderData,
+        cartItems,
       };
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -100,7 +95,7 @@ export default function Card() {
               </div>
               <div className="px-4 py-1 text-accent my-auto">
                 <h3 className=" text-orange-500 mb-3">Total Price:</h3>
-                <p>{TotalCartPrice.reduce((acu, cur) => acu + cur, 0)} DA</p>
+                <p>{TotalCartPrice} DA</p>
               </div>
             </div>
 

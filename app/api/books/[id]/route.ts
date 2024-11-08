@@ -1,6 +1,6 @@
 import { connectToDB } from "@/app/lib/connectToDB";
 import Book from "@/app/lib/models/Book";
-import Category from "@/app/lib/models/Category";
+import mongoose from "mongoose";
 import { NextResponse, NextRequest } from "next/server";
 
 connectToDB();
@@ -12,28 +12,42 @@ export async function GET(
   const { id } = params;
 
   try {
-    // Fetch the book by ID
-    const book = await Book.findById(id).lean().exec(); // Use `lean()` for a plain object
-    if (!book) {
+    const bookWithCategory = await Book.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "category",
+          foreignField: "_id",
+          as: "categoryDetails",
+        },
+      },
+      {
+        $unwind: "$categoryDetails",
+      },
+      {
+        $project: {
+          _id: 1,
+          title: 1,
+          auther: 1,
+          image: 1,
+          price: 1,
+          description: 1,
+          quantity: 1,
+          categoryName: "$categoryDetails.name",
+        },
+      },
+    ]);
+
+    if (bookWithCategory.length === 0) {
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
     }
 
-    // Find the category name associated with the book's category ID
-    const category = await Category.findById(book.category).lean().exec();
-    if (!category) {
-      return NextResponse.json(
-        { error: "Category not found" },
-        { status: 404 }
-      );
-    }
-
-    // Combine book properties and add the category name as a new property
-    const finalData = { ...book, categoryName: category.name };
-
-    // Return the combined object
-    return NextResponse.json(finalData);
+    return NextResponse.json(bookWithCategory[0]);
   } catch (error) {
-    console.error("Error fetching book or category:", error);
+    console.error("Error fetching book with category:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

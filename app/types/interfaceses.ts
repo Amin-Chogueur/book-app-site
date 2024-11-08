@@ -1,4 +1,3 @@
-
 export interface BookType {
   title: string;
   description: string;
@@ -7,7 +6,19 @@ export interface BookType {
   image: string;
   quantity: number;
   category: string;
-  categoryName:string;
+  categoryName: string;
   auther: string;
 }
 
+export interface CartItem {
+  title: string;
+  description: string;
+  price: string;
+  itemId: string;
+  image: string;
+  quantityInCart: number;
+  quantityInStore: number;
+  category: string;
+  categoryName: string;
+  auther: string;
+}

@@ -31,6 +31,9 @@ export default function Book({ book }: { book: BookType }) {
           <span className="text-orange-500 ">Auther :</span> {book.auther}
         </h3>
         <h3>
+          <span className="text-orange-500 ">quantity :</span> {book.quantity}
+        </h3>
+        <h3>
           <span className="text-orange-500   ">Price :</span> {book.price} DA
         </h3>
         {book.quantity > 0 ? (
